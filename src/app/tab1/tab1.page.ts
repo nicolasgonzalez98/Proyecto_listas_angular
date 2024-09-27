@@ -1,19 +1,25 @@
-import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonIcon,IonFabButton } from '@ionic/angular/standalone';
+import { Component, NgModule } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonIcon,IonFabButton, IonList, IonItem, IonLabel, IonItemSliding, IonItemOptions, IonItemOption } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { addIcons } from 'ionicons';
 import { addCircleOutline, arrowForwardCircle, text } from 'ionicons/icons';
 import { AlertController, ToastController } from "@ionic/angular"
 import { ListaService } from '../services/lista.service';
+import { CommonModule } from '@angular/common';
+import { Lista } from '../models/lista.model';
+
+
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonFab, IonIcon, IonFabButton],
+  imports: [CommonModule,IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonFab, IonIcon, IonFabButton, IonList, IonItem, IonLabel, IonItemSliding, IonItemOptions, IonItemOption],
+  
   
 })
+
 export class Tab1Page {
   constructor(
     public alertController:AlertController,
@@ -48,7 +54,11 @@ export class Tab1Page {
           handler:(data:any)=>{
             let esValido:boolean = this.validarInput(data);
             if(esValido){
-              this.listaService.crearLista(data.titulo)
+              let creadaOk = this.listaService.crearLista(data.titulo);
+              
+              if(creadaOk){ //Se verifica si la variable tiene un valor, es decir, que fue creada
+                this.presentToast('Lista creada correctamente!');
+              }               
             }
             
           }
@@ -72,5 +82,15 @@ export class Tab1Page {
   async presentToast(mensage:string) { 
     let toast = await this.toastController.create({ message: mensage, duration: 2000 }); 
     toast.present(); 
-  } 
+  }
+
+    editarLista(listaItem: Lista) {
+      console.log("Editar lista:", listaItem);
+    }
+
+    eliminarLista(listaItem: Lista) {
+      this.listaService.eliminarLista(listaItem);
+      console.log("eliminar lista: ", listaItem)
+    }
+   
 }
