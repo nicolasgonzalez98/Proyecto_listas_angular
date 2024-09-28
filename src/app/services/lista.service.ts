@@ -41,5 +41,15 @@ export class ListaService {
       this.listas = nuevoListado;
       this.guardarStorage();
     }
+
+    editarLista(lista: Lista) {
+      let listaEditar = this.listas.find((listaItem)=> listaItem.id == lista.id);
+     //find devuelve el primer valor que encuentra
+      if(listaEditar) {
+       listaEditar.titulo = lista.titulo;
+      }
+     
+      this.guardarStorage();
+      }
    
 }
