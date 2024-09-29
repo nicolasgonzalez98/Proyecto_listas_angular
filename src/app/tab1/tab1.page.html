@@ -8,24 +8,7 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-item-sliding *ngFor="let listaItem of listaService.listas">
-      <ion-item>
-        <ion-label>{{ listaItem.titulo }}</ion-label>
-      </ion-item>
-
-      <ion-item-options side="start">
-          <ion-item-option color="warning" (click)="editarLista(listaItem)">Editar</ion-item-option>
-      </ion-item-options>
-
-      <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="eliminarLista(listaItem)">Eliminar</ion-item-option>
-      </ion-item-options>
-  </ion-item-sliding>
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="AgregarLista()"> 
-    <ion-fab-button> 
-      <ion-icon name="add-circle-outline"></ion-icon> 
-    </ion-fab-button> 
-  </ion-fab> 
-
+  <!-- Componente donde se muestran las listas -->
+  <app-listas></app-listas>
+  
 </ion-content>

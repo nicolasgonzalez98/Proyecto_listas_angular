@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Lista } from '../models/lista.model';
+import { AlertController, ToastController } from "@ionic/angular"
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,10 @@ import { Lista } from '../models/lista.model';
 export class ListaService {
 
   public listas: Lista[] = [];
-  constructor() { 
+  constructor(
+    public toastController:ToastController,
+    public alertController:AlertController
+  ) { 
     this.cargarStorage();
   };
 
@@ -36,7 +40,7 @@ export class ListaService {
 
     eliminarLista(lista: Lista) {
       let nuevoListado = this.listas.filter((listaItem)=> listaItem.id !== lista.id); //Guardamos todas las listas menos lalista a eliminar
-      console.log(nuevoListado)
+      
      //filter devuelve un arreglo de listas
       this.listas = nuevoListado;
       this.guardarStorage();
@@ -50,6 +54,26 @@ export class ListaService {
       }
      
       this.guardarStorage();
+    }
+
+    validarInput(input: any):boolean {
+      if(input && input.titulo) {       
+        return true;
       }
+      this.presentToast('Debe ingresar un valor'); 
+      return false;
+    }
+  
+    async presentToast(mensage:string) { 
+      let toast = await this.toastController.create({ message: mensage, duration: 2000 }); 
+      toast.present(); 
+    }
+
+    obtenerLista(idLista: string | number) {
+      const id = Number(idLista); 
+      //Parseamos el dato a Number, por si viene de tipo string, de esta manera siempre trabajaremos con un Number
+      let lista = this.listas.find((itemLista)=> itemLista.id == id);
+      return lista;
+    }
    
 }
