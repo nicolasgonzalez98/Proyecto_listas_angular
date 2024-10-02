@@ -19,7 +19,7 @@ import { ComponentsModule } from '../components/components.module';
   imports: [CommonModule,IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonFab, IonIcon, 
     IonFabButton, IonList, IonItem, IonLabel, 
     IonItemSliding, IonItemOptions, IonItemOption,
-    ComponentsModule
+    ComponentsModule, 
     ], 
 })
 
@@ -30,5 +30,42 @@ export class Tab1Page {
     public listaService:ListaService
   ) {
     addIcons({addCircleOutline,arrowForwardCircle});
+  }
+
+  async AgregarLista() {
+    let alerta = await this.listaService.alertController.create({ 
+      header: "Agregar lista", 
+      inputs: [ 
+        { 
+          type: "text", 
+          name: "titulo", 
+          placeholder: "Ingresar nombre de la lista" 
+        } 
+      ],
+      buttons: [
+        {
+          text:"Cancelar",
+          role:"cancel"
+        },
+        {
+          text:"Crear",
+          handler:(data:any)=>{
+            let esValido:boolean = this.listaService.validarInput(data);
+            if(esValido){
+              let creadaOk = this.listaService.crearLista(data.titulo);
+              
+              if(creadaOk){ //Se verifica si la variable tiene un valor, es decir, que fue creada
+                this.listaService.presentToast('Lista creada correctamente!');
+              }               
+            }
+            
+          }
+        }
+
+      ]
+      }) 
+
+    await alerta.present(); 
+     
   }
 }

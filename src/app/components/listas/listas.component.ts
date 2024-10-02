@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ListaService } from 'src/app/services/lista.service';
 import { Lista } from 'src/app/models/lista.model';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./listas.component.scss'],
 })
 export class ListasComponent  implements OnInit {
+  @Input() tipo:string = ''; 
 
   constructor(
     public listaService: ListaService,

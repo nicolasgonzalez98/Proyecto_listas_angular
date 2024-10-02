@@ -1,5 +1,5 @@
 <p>
-  <ion-item-sliding *ngFor="let listaItem of listaService.listas">
+  <ion-item-sliding *ngFor="let listaItem of listaService.listas | filtroLista : tipo ">
       <ion-item (click)="listaSeleccionada(listaItem)">
         <ion-label>{{ listaItem.titulo }}</ion-label>
       </ion-item>
@@ -13,9 +13,5 @@
       </ion-item-options>
   </ion-item-sliding>
  
-  <ion-fab vertical="bottom" horizontal="bottom" slot="fixed" (click)="AgregarLista()"> 
-    <ion-fab-button> 
-      <ion-icon name="add-circle-outline"></ion-icon> 
-    </ion-fab-button> 
-  </ion-fab> 
+  
 </p>
